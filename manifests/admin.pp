@@ -23,8 +23,8 @@ class pulp::admin (
   }
 
   exec { 'pulp-admin-update-login':
-    command => "/usr/bin/pulp-admin -u ${default_login} -p ${default_passwd} auth user update --login ${admin_login} --password ${admin_password} --name 'Pulp Administrator'",
-    onlyif  => "/usr/bin/pulp-admin -u ${default_login} -p ${default_passwd} auth user update --login ${default_login} --password ${default_password}",
+    command => "/usr/bin/pulp-admin -u ${default_login} -p ${default_passwd} auth user update --login ${admin_login} --password ${admin_passwd} --name 'Pulp Administrator'",
+    onlyif  => "/usr/bin/pulp-admin -u ${default_login} -p ${default_passwd} auth user update --login ${default_login} --password ${default_passwd}",
     require => [ Package[$packagelist], File['/etc/pulp/admin/admin.conf']],
   }
 
