@@ -17,7 +17,7 @@ class pulp::server (
   $email       = 'false'
 ) {
 
-  packagelist = ['pulp-server', 'pulp-selinux', 'pulp-rpm-plugins', 'pulp-puppet-plugins']
+  $packagelist = ['pulp-server', 'pulp-selinux', 'pulp-rpm-plugins', 'pulp-puppet-plugins']
 
   package { $packagelist:
     ensure => installed,
