@@ -51,7 +51,7 @@ class pulp::server (
     notify  => Service['httpd'],
     require => [
       Package[$packagelist],
-      File['/etc/pulp/pulp.conf'],
+      File['/etc/pulp/server.conf'],
       Service['mongod'],
     ],
   }
