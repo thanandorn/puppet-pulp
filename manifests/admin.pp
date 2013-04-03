@@ -29,7 +29,7 @@ class pulp::admin (
   }
 
   exec { 'pulp-admin-login':
-    command => "/usr/bin/pulp-admin auth login --username ${admin_login} --password ${admin_passwd}",
+    command => "/usr/bin/pulp-admin login --username ${admin_login} --password ${admin_passwd}",
     creates => '/root/.pulp/user-cert.pem',
     require => [
       Package[$packagelist],
