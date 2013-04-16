@@ -1,7 +1,7 @@
 define pulp::repo (
-  $feedurl,
-  $ensure   = 'present',
-  $mirror   = 'true',
+  $feedurl  = undef,
+  $ensure   = present,
+  $mirror   = true,
   $type     = 'rpm',
   $time     = '01:00:00',
   $interval = 'P5D') {
