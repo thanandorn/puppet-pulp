@@ -1,0 +1,8 @@
+name         'puppet-pulp'
+version      '0.0.1'
+source       'git@github.com:thanandorn/puppet-pulp.git'
+author       'Tron Thongsringklee'
+license      'Apache License, Version 2.0'
+summary      'Puppet Modules for Pulp'
+description  'Puppet Modules for Pulp'
+project_page 'https://github.com/thanandorn/puppet-pulp'
