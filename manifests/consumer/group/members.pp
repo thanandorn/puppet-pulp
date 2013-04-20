@@ -14,7 +14,7 @@ define pulp::consumer::group::members (
         unless  => "test \"$(pulp-admin $type consumer group list --group-id ${groupid} \
                     | grep \"Id.*${consumerid}\" | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
-        require => Package['pulp-admin'],
+        require => Package['pulp-admin-client'],
       }
     }
     absent: {
@@ -24,7 +24,7 @@ define pulp::consumer::group::members (
         onlyif  => "test \"$(pulp-admin $type consumer group list --group-id ${groupid} \
                     | grep \"Id.*${consumerid}\" | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
-        require => Package['pulp-admin'],
+        require => Package['pulp-admin-client'],
       }
     }
   }
