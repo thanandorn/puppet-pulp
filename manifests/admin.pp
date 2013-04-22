@@ -18,7 +18,7 @@ class pulp::admin (
     owner   => root,
     group   => root,
     mode    => 0644,
-    content => template('pulp/admin/admin.conf.erb'),
+    content => template('pulp/admin.conf.erb'),
     require => Package[$packagelist],
   }
 
