@@ -14,9 +14,9 @@
 #     perform before giving up and reporting an error
 
 [database]
-name: <%= db_name %>
-seeds: <%= db_host %>:<%= db_port %>
-operation_retries: <%= db_retries %>
+name: <%= @db_name %>
+seeds: <%= @db_host %>:<%= @db_port %>
+operation_retries: <%= @db_retries %>
 
 
 # = Server =
@@ -32,11 +32,11 @@ operation_retries: <%= db_retries %>
 # debugging_mode: boolean; toggles Pulp's debugging capabilities
 
 [server]
-server_name: <%= server_name %>
+server_name: <%= @server_name %>
 key_url: /pulp/gpg
 ks_url: /pulp/ks
-default_login: <%= def_login %>
-default_password: <%= def_passwd %>
+default_login: <%= @def_login %>
+default_password: <%= @def_passwd %>
 debugging_mode: false
 
 # = Security =
@@ -65,8 +65,8 @@ debugging_mode: false
 cacert: /etc/pki/pulp/ca.crt
 cakey: /etc/pki/pulp/ca.key
 ssl_ca_certificate: /etc/pki/pulp/ssl_ca.crt
-user_cert_expiration: <%= user_expire %>
-consumer_cert_expiration: <%= cons_expire %>
+user_cert_expiration: <%= @user_expire %>
+consumer_cert_expiration: <%= @cons_expire %>
 serial_number_path: /var/lib/pulp/sn.dat
 
 
@@ -86,7 +86,7 @@ serial_number_path: /var/lib/pulp/sn.dat
 #     than this will be purged; set to -1 to disable
 
 [consumer_history]
-lifetime: <%= cons_life %>
+lifetime: <%= @cons_life %>
 
 
 # = Coordinator =
@@ -227,7 +227,7 @@ db_config: /etc/pulp/logging/db.cfg
 # unbind_timeout: messaging timeout in seconds for unbind requests
 
 [messaging]
-url: tcp://<%= msgq_server %>:<%= msgq_port %>
+url: tcp://<%= @msgq_server %>:<%= @msgq_port %>
 cacert: /etc/pki/qpid/ca/ca.crt
 clientcert: /etc/pki/qpid/client/client.pem
 topic_exchange: 'amq.topic'
@@ -302,7 +302,7 @@ sync_weight: 2
 # enabled: booleanl controls whether or not emails will be sent
 
 [email]
-host: <%= email_host %>
-port: <%= email_port %>
-from: <%= email_from %>
-enabled: <%= email %>
+host: <%= @email_host %>
+port: <%= @email_port %>
+from: <%= @email_from %>
+enabled: <%= @email %>
