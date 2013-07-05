@@ -4,7 +4,12 @@ class pulp::consumer (
   $admin_passwd,
 ) {
 
-  $packagelist = ['pulp-consumer-client','pulp-puppet-handlers','pulp-rpm-consumer-extensions','pulp-rpm-handlers']
+  $packagelist = [
+    'pulp-consumer-client',
+    'pulp-puppet-handlers',
+    'pulp-rpm-consumer-extensions',
+    'pulp-rpm-handlers'
+  ]
 
   package { $packagelist:
     ensure  => installed,
