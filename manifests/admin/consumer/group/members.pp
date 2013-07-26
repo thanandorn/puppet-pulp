@@ -1,4 +1,4 @@
-define pulp::consumer::group::members (
+define pulp::admin::consumer::group::members (
   $type       = 'rpm',
   $ensure     = present,
   $groupid,
