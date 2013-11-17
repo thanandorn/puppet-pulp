@@ -1,7 +1,6 @@
 TODO List
 =========
 
-  - Add/Delete Consumer Group
-  - Add/Delete Consumer(s) From Consumer Group
+  - Add/Delete Array of Consumer(s) To/From Consumer Group
   - Add/Delete Puppet Repository
   - Bind/Unbind Puppet Repository from Consumer(s)
