@@ -54,8 +54,8 @@ debugging_mode: false
 # cakey: path to the private key for the above CA certificate
 #
 # ssl_ca_certificate: full path to the CA certificate used to sign the Pulp
-#     server's SSL certificate; consumers and CDS instances will use this to
-#     verify the Pulp server's SSL certificate during the SSL handshake
+#     server's SSL certificate; consumers will use this to verify the
+#     Pulp server's SSL certificate during the SSL handshake
 #
 # user_cert_expiration: number of days a user certificate is valid
 #
@@ -71,12 +71,6 @@ serial_number_path: /var/lib/pulp/sn.dat
 
 
 # -- Advanced Configuration ---------------------------------------------------
-
-# = CDS =
-#
-# CDS functionality will be added to Pulp in a different form in a future
-# 2.x release. The previous configuration options have been removed in
-# the interim.
 
 # = Consumer History =
 #
@@ -231,9 +225,9 @@ url: tcp://<%= @msgq_server %>:<%= @msgq_port %>
 cacert: /etc/pki/qpid/ca/ca.crt
 clientcert: /etc/pki/qpid/client/client.pem
 topic_exchange: 'amq.topic'
-install_timeout: 10:600
-update_timeout: 10:600
-uninstall_timeout: 10:600
+install_timeout: 10:10800
+update_timeout: 10:10800
+uninstall_timeout: 10:10800
 bind_timeout: 2592000:600
 unbind_timeout: 2592000:600
 
