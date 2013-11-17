@@ -19,7 +19,7 @@ define pulp::consumer::bind (
     }
     absent: {
       exec { "pulp-consumer-unbind-${repoid}":
-        command => "pulp-admin $type unbind --repo-id ${repoid} --force",
+        command => "pulp-consumer $type unbind --repo-id ${repoid} --force",
         onlyif  => "/bin/grep \"name.*=.*${repoid}\" /etc/yum.repos.d/pulp.repo",
         path    => ['/usr/bin', '/bin'],
         require => Package['pulp-consumer-client'],
