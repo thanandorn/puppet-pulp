@@ -51,9 +51,9 @@ class pulp::server (
   }
 
   exec { 'pulp-server-init':
-    command => 'sleep 3 && /usr/bin/pulp-manage-db && \
-                sleep 2 && touch /var/lib/pulp/init.flag',
+    command => 'pulp-manage-db && touch /var/lib/pulp/init.flag',
     creates => '/var/lib/pulp/init.flag',
+    path    => ['/usr/bin', '/bin'],
     notify  => Service['httpd'],
     require => [
       Package[$packagelist],

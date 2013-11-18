@@ -2,7 +2,7 @@
 # Only available for RPM repositories
 #
 define pulp::consumer::bind (
-  $repoid = $name
+  $repoid = $name,
   $ensure = present,
   $type   = 'rpm',
 ) {
