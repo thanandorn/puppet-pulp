@@ -1,8 +1,11 @@
+#
+# Only RPM Consumer Supported
+#
 define pulp::admin::consumer::group::members (
-  $type       = 'rpm',
-  $ensure     = present,
-  $groupid,
-  $consumerid
+  $ensure  = 'present',
+  $groupid = $name,
+  $type    = 'rpm',
+  $consumerid,
 ) {
 
   case $ensure {
@@ -11,18 +14,20 @@ define pulp::admin::consumer::group::members (
       exec { "pulp-consumergroup-${groupid}-add-${consumerid}" :
         command => "pulp-admin $type consumer group members add \
                     --group-id ${groupid} --consumer-id ${consumerid}",
-        unless  => "test \"$(pulp-admin $type consumer group list --group-id ${groupid} \
-                    | grep \"Id.*${consumerid}\" | grep -o ${consumerid} )\" = \"${consumerid}\" ",
+        unless  => "test \"$(pulp-admin $type consumer group list \
+                    | grep -A3 \"Id.*${groupid}\" \
+                    | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
         require => Package['pulp-admin-client'],
       }
     }
     absent: {
-      exec { "pulp-consumergroup-${groupid}-del-${consumerid}" :
+      exec { "pulp-consumergroup-${groupid}-remove-${consumerid}" :
         command => "pulp-admin $type consumer group members remove \
                     --group-id ${groupid} --consumer-id ${consumerid}",
-        onlyif  => "test \"$(pulp-admin $type consumer group list --group-id ${groupid} \
-                    | grep \"Id.*${consumerid}\" | grep -o ${consumerid} )\" = \"${consumerid}\" ",
+        onlyif  => "test \"$(pulp-admin $type consumer group list \
+                    | grep -A3 \"Id.*${groupid}\" \
+                    | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
         require => Package['pulp-admin-client'],
       }

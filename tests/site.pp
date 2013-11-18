@@ -35,8 +35,8 @@ node /pulp/ inherits default {
     feedurl => 'http://repo.varnish-cache.org/redhat/varnish-3.0/el6/x86_64/',
   } ->
   pulp::consumer::bind { 'varnish-el6-x86_64': } ->
-  pulp::consumer::group { 'cache-servers': } ->
-  pulp::consumer::group::members { 'cache-servers':
+  pulp::admin::consumer::group { 'cache-servers': } ->
+  pulp::admin::consumer::group::members { 'cache-servers':
     consumerid => $::hostname,
   }
 }
