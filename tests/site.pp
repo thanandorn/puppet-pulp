@@ -1,14 +1,20 @@
 node default {
+  # Init
+  exec { 'iptables-off':
+    command => '/sbin/iptables -F',
+  } ->
+  host {
+    'pulp.example.com':
+      ip => '10.10.10.100';
+    'consumer1.example.com':
+      ip => '10.10.10.200';
+  }
+}
 
-  exec { 'yum-update':
-    command => '/usr/bin/yum -y update > /dev/null',
-  } ->
-  exec { 'install-redhat_lsb':
-    command => '/usr/bin/yum -y install redhat-lsb > /dev/null',
-  } ->
-  host { 'pulp.example.com':
-    ip => '127.0.0.1',
-  } ->
+node /pulp/ inherits default {
+
+  # Init
+  Host <||> ->
 
   # Pulp Installation
   class { 'pulp::yum': } ->
@@ -33,4 +39,19 @@ node default {
   pulp::consumer::group::members { 'cache-servers':
     consumerid => $::hostname,
   }
+}
+
+node /consumer/ inherits default {
+
+  # Init
+  Host <||> ->
+
+  # Pulp Installation
+  class { 'pulp::yum': } ->
+  class { 'pulp::consumer':
+    pulpserver_host => 'pulp.example.com',
+    admin_login     => 'admin',
+    admin_passwd    => 'new_password',
+  } ->
+  pulp::consumer::bind { 'varnish-el6-x86_64': }
 }

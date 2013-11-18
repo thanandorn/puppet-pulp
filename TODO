@@ -1,6 +1,8 @@
-TODO List
-=========
+TODO
+====
 
-  - Add/Delete Array of Consumer(s) To/From Consumer Group
-  - Add/Delete Puppet Repository
-  - Bind/Unbind Puppet Repository from Consumer(s)
+  - Check mongodb connection before initializing db
+  - Fix Travis-ci build script
+  - Add/Delete array of consumer(s) to/from consumer group
+  - Add/Delete Puppet repository
+  - Bind/Unbind Puppet repository from consumer(s)

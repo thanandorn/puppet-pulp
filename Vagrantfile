@@ -2,8 +2,11 @@
 # vi: set ft=ruby 
 
 $pulp_init = <<SCRIPT
+service iptables stop
+chkconfig iptables off
 yum -y install redhat-lsb
 yum -y update
+puppet apply --verbose --show_diff --manifestdir /tmp/vagrant-puppet/manifests --detailed-exitcodes /tmp/vagrant-puppet/manifests/site.pp
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -27,5 +30,13 @@ Vagrant.configure("2") do |config|
     pulp.vm.synced_folder "./manifests", "/etc/puppet/modules/pulp/manifests"
     pulp.vm.synced_folder "./templates", "/etc/puppet/modules/pulp/templates"
     pulp.vm.provision "shell", inline: $pulp_init
+  end
+
+  config.vm.define "consumer1" do |consumer1|
+    consumer1.vm.hostname = "consumer1.example.com"
+    consumer1.vm.network  "private_network", ip: "10.10.10.200"
+    consumer1.vm.synced_folder "./manifests", "/etc/puppet/modules/pulp/manifests"
+    consumer1.vm.synced_folder "./templates", "/etc/puppet/modules/pulp/templates"
+    consumer1.vm.provision "shell", inline: $pulp_init
   end
 end
