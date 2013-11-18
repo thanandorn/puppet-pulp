@@ -14,10 +14,14 @@ define pulp::repo (
         default: { err("unknown mirror value ${mirror}") }
         true: {
           exec { "pulp-${type}-repo-create-${name}":
-            command => "pulp-admin ${type} repo create --repo-id ${name} --feed $feedurl \
-                        && pulp-admin ${type} repo sync schedules create --repo-id ${name} -s \"$(date +%Y-%m-%d)T${time}Z/${interval}\" \
-                        && pulp-admin ${type} repo sync run --repo-id ${name} --bg",
-            unless  => "pulp-admin ${type} repo update --repo-id ${name} --description \"Last checked by Puppet on $(date)\"",
+            command => "pulp-admin ${type} repo create --repo-id ${name} \
+                        --feed ${feedurl} && pulp-admin ${type} repo sync \
+                        schedules create --repo-id ${name} \
+                        -s \"$(date +%Y-%m-%d)T${time}Z/${interval}\" \
+                        && pulp-admin ${type} repo sync run --repo-id ${name} \
+                        --bg",
+            unless  => "pulp-admin ${type} repo update --repo-id ${name} \
+                        --description \"Last checked by Puppet on $(date)\"",
             path    => ['/usr/bin', '/bin'],
             require => Package['pulp-admin-client'],
           }
@@ -25,7 +29,8 @@ define pulp::repo (
         false: {
           exec { "pulp-${type}-repo-create-${name}":
             command => "pulp-admin ${type} repo create --repo-id ${name}",
-            unless  => "pulp-admin ${type} repo update --repo-id ${name} --description \"Last checked by Puppet on $(date)\"",
+            unless  => "pulp-admin ${type} repo update --repo-id ${name} \
+                        --description \"Last checked by Puppet on $(date)\"",
             path    => ['/usr/bin', '/bin'],
             require => Package['pulp-admin-client'],
           }
@@ -35,7 +40,8 @@ define pulp::repo (
     absent: {
       exec { "pulp-${type}-repo-delete-${name}":
         command => "pulp-admin ${type} repo delete --repo-id ${name}",
-        onlyif  => "pulp-admin ${type} repo update --repo-id ${name} --description \"Last checked by Puppet on $(date)\"",
+        onlyif  => "pulp-admin ${type} repo update --repo-id ${name} \
+                    --description \"Last checked by Puppet on $(date)\"",
         path    => ['/usr/bin', '/bin'],
         require => Package['pulp-admin-client'],
       }

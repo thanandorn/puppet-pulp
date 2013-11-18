@@ -1,7 +1,7 @@
 class pulp::consumer (
   $pulpserver_host = 'localhost',
   $admin_login     = 'admin',
-  $admin_passwd,
+  $admin_passwd    = undef,
 ) {
 
   $packagelist = [
@@ -17,19 +17,19 @@ class pulp::consumer (
     ensure  => installed,
   }
 
-  file { "/etc/pulp/consumer/consumer.conf":
+  file { '/etc/pulp/consumer/consumer.conf':
     ensure  => present,
     owner   => root,
     group   => root,
-    mode    => 0644,
+    mode    => '0644',
     content => template('pulp/consumer.conf.erb'),
     require => Package[$packagelist],
     notify  => Service['goferd'],
   }
 
   exec { 'pulp-consumer-register':
-    command => "pulp-consumer -u $admin_login -p $admin_passwd register \
-                --consumer-id $::hostname --display-name $::fqdn",
+    command => "pulp-consumer -u ${admin_login} -p ${admin_passwd} register \
+                --consumer-id ${::hostname} --display-name ${::fqdn}",
     creates => '/etc/pki/pulp/consumer/consumer-cert.pem',
     path    => ['/usr/bin', '/bin'],
     require => [

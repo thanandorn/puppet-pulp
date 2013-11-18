@@ -3,7 +3,7 @@ class pulp::server (
   $db_host     = 'localhost',
   $db_port     = '27017',
   $db_retries  = '2',
-  $server_name = "localhost",
+  $server_name = 'localhost',
   $def_login   = 'admin',
   $def_passwd  = 'admin',
   $user_expire = '365',
@@ -14,7 +14,7 @@ class pulp::server (
   $email_host  = 'localhost',
   $email_port  = '25',
   $email_from  = 'no-reply@example.com',
-  $email       = 'false'
+  $email       = false,
 ) {
 
   $packagelist = [
@@ -44,14 +44,15 @@ class pulp::server (
     ensure  => present,
     owner   => root,
     group   => root,
-    mode    => 0644,
+    mode    => '0644',
     content => template('pulp/server.conf.erb'),
     notify  => Service['httpd'],
     require => Package[$packagelist],
   }
 
   exec { 'pulp-server-init':
-    command => '/usr/bin/pulp-manage-db && touch /var/lib/pulp/init.flag',
+    command => 'sleep 3 && /usr/bin/pulp-manage-db && \
+                sleep 2 && touch /var/lib/pulp/init.flag',
     creates => '/var/lib/pulp/init.flag',
     notify  => Service['httpd'],
     require => [

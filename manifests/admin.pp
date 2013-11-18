@@ -4,7 +4,7 @@ class pulp::admin (
   $default_login   = 'admin',
   $default_passwd  = 'admin',
   $admin_login     = 'admin',
-  $admin_passwd
+  $admin_passwd    = undef,
 ) {
 
   $packagelist = [
@@ -21,22 +21,25 @@ class pulp::admin (
     ensure  => present,
     owner   => root,
     group   => root,
-    mode    => 0644,
+    mode    => '0644',
     content => template('pulp/admin.conf.erb'),
     require => Package[$packagelist],
   }
 
   exec { 'pulp-admin-update-login':
     command => "pulp-admin -u ${default_login} -p ${default_passwd} auth user \
-                update --login ${admin_login} --password ${admin_passwd} --name 'Pulp Administrator'",
+                update --login ${admin_login} --password ${admin_passwd} \
+                --name 'Pulp Administrator'",
     onlyif  => "pulp-admin -u ${default_login} -p ${default_passwd} \
-                auth user update --login ${default_login} --password ${default_passwd}",
+                auth user update --login ${default_login} \
+                --password ${default_passwd}",
     path    => ['/usr/bin', '/bin'],
     require => [ Package[$packagelist], File['/etc/pulp/admin/admin.conf']],
   }
 
   exec { 'pulp-admin-login':
-    command => "pulp-admin login --username ${admin_login} --password ${admin_passwd}",
+    command => "pulp-admin login --username ${admin_login} \
+                --password ${admin_passwd}",
     creates => '/root/.pulp/user-cert.pem',
     path    => ['/usr/bin', '/bin'],
     require => [

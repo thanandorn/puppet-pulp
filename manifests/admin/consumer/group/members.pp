@@ -2,8 +2,8 @@
 # Only RPM Consumer Supported
 #
 define pulp::admin::consumer::group::members (
-  $ensure  = 'present',
   $groupid = $name,
+  $ensure  = present,
   $type    = 'rpm',
   $consumerid,
 ) {
@@ -12,9 +12,9 @@ define pulp::admin::consumer::group::members (
     default: { err("unknown ensure value ${ensure}") }
     present: {
       exec { "pulp-consumergroup-${groupid}-add-${consumerid}" :
-        command => "pulp-admin $type consumer group members add \
+        command => "pulp-admin ${type} consumer group members add \
                     --group-id ${groupid} --consumer-id ${consumerid}",
-        unless  => "test \"$(pulp-admin $type consumer group list \
+        unless  => "test \"$(pulp-admin ${type} consumer group list \
                     | grep -A3 \"Id.*${groupid}\" \
                     | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
@@ -23,9 +23,9 @@ define pulp::admin::consumer::group::members (
     }
     absent: {
       exec { "pulp-consumergroup-${groupid}-remove-${consumerid}" :
-        command => "pulp-admin $type consumer group members remove \
+        command => "pulp-admin ${type} consumer group members remove \
                     --group-id ${groupid} --consumer-id ${consumerid}",
-        onlyif  => "test \"$(pulp-admin $type consumer group list \
+        onlyif  => "test \"$(pulp-admin ${type} consumer group list \
                     | grep -A3 \"Id.*${groupid}\" \
                     | grep -o ${consumerid} )\" = \"${consumerid}\" ",
         path    => ['/usr/bin', '/bin'],
